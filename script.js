@@ -267,6 +267,8 @@ class Enemy {
     spriteMaxPos
     timer
     dir
+    stop
+
     sourcePath
 
     constructor(x, y) {
@@ -277,7 +279,8 @@ class Enemy {
         this.spritePos = 0
         this.spriteMaxPos = 3
         this.sourcePath = 'img/assets/Enemies/1/'
-        this.dir = 0.5
+        this.dir = 1
+        this.stop = false
 
         this.state = this.IDLE
         this.animateWasChanged = false
@@ -334,7 +337,12 @@ class Enemy {
                 }
             }
             this.spritePos++
-            this.move()
+            this.checkCollide()
+            if (!this.stop) {
+                this.move()
+            } else {
+                this.changeAnimate(this.ATTACK)
+            }
             this.animate()
         }, 150)
 
@@ -384,6 +392,23 @@ class Enemy {
         }
         this.posX += this.dir
         this.block.style.left = this.posX * 32
+    }
+    checkCollide(){
+        if (heroY == this.posY) {
+            if (heroX == this.posX) {
+                // left attack
+                this.stop = true
+            } else if (heroX == (this.posX + 2)) {
+                // right attack
+                this.stop = true
+            } else {
+                this.stop = false
+                this.changeAnimate(this.WALK)
+            }
+        } else {
+            this.stop = false
+            this.changeAnimate(this.WALK)
+        }
     }
 }
 
