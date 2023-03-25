@@ -10,6 +10,8 @@ let timer = null
 let x = 0
 let halfWidth = window.screen.width / 2
 let tileArray = []
+let maxLives = 6
+let lives = 3
 
 let jumpBlock = window.document.querySelector('#jump-block')
 let hitBlock = window.document.querySelector('#hit-block')
@@ -412,6 +414,50 @@ class Enemy {
     }
 }
 
+class Heart {
+    img
+    x
+    constructor(x, src) {
+        this.x = x
+        this.img = window.document.createElement('img')
+        this.img.src = src
+        this.img.style.position = 'absolute'
+        this.img.style.left = this.x * 32
+        this.img.style.bottom = ((window.screen.height / 32) - 13)*32
+        this.img.style.width = 32
+        this.img.style.height = 32
+
+        canvas.appendChild(this.img)
+    }
+}
+
+class HeartEmpty extends Heart {
+    constructor(x) {
+        super(x, 'img/assets/Hearts/heart_empty.png')
+    }
+}
+
+class HeartRed extends Heart {
+    constructor(x) {
+        super(x, 'img/assets/Hearts/heart_red.png')
+    }
+}
+
+const addHearts = () => {
+    // let heartEmpty = new HeartEmpty(0)
+    // let heartRed = new HeartRed(1)
+    // maxLives = 6
+    // lives = 3
+
+    for (let i = 1; i <= lives; i++) {
+        let heartRed = new HeartRed(i)
+    }
+
+    for (let i = lives; i <= maxLives; i++) {
+        let heartEmpty = new HeartEmpty(i)
+    }
+}
+
 const start = () => {
     lifeCycle()
     for (let i = 0; i < 100; i++) {
@@ -425,6 +471,8 @@ const start = () => {
     createTilesPlatform(15, 5, 10)
 
     let enemy = new Enemy(10, 2)
+
+    addHearts()
 }
 
 start()
