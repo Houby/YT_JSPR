@@ -257,7 +257,6 @@ class Enemy {
 
     state
     animateWasChanged
-
     posX
     posY
     img
