@@ -300,7 +300,6 @@ class Enemy {
         this.img.style.position = 'absolute'
         this.img.style.left = 0
         this.img.style.bottom = 0
-        // this.img.style.width = this.blockSize * (this.spriteMaxPos + 1)
         this.img.style.height = this.blockSize
 
         this.block.appendChild(this.img)
