@@ -257,6 +257,7 @@ class Enemy {
 
     state
     animateWasChanged
+    startX
     posX
     posY
     img
@@ -265,20 +266,24 @@ class Enemy {
     spritePos
     spriteMaxPos
     timer
+    dir
     sourcePath
 
     constructor(x, y) {
         this.posX = x
+        this.startX = this.posX
         this.posY = y
         this.blockSize = 96
         this.spritePos = 0
         this.spriteMaxPos = 3
         this.sourcePath = 'img/assets/Enemies/1/'
+        this.dir = 0.5
+
         this.state = this.IDLE
         this.animateWasChanged = false
 
         this.createImg()
-        this.changeAnimate(this.IDLE)
+        this.changeAnimate(this.WALK)
         this.lifeCycle()
     }
     createImg() {
@@ -295,7 +300,7 @@ class Enemy {
         this.img.style.position = 'absolute'
         this.img.style.left = 0
         this.img.style.bottom = 0
-        this.img.style.width = this.blockSize * (this.spriteMaxPos + 1)
+        // this.img.style.width = this.blockSize * (this.spriteMaxPos + 1)
         this.img.style.height = this.blockSize
 
         this.block.appendChild(this.img)
@@ -330,6 +335,7 @@ class Enemy {
                 }
             }
             this.spritePos++
+            this.move()
             this.animate()
         }, 150)
 
@@ -343,26 +349,42 @@ class Enemy {
     setAttack() {
         this.img.src = this.sourcePath + 'Attack.png'
         this.spriteMaxPos = 5
+        this.img.style.width = this.blockSize * (this.spriteMaxPos + 1)
     }
     setDeath() {
         this.img.src = this.sourcePath + 'Death.png'
         this.spriteMaxPos = 5
+        this.img.style.width = this.blockSize * (this.spriteMaxPos + 1)
     }
     setHurt() {
         this.img.src = this.sourcePath + 'Hurt.png'
         this.spriteMaxPos = 1
+        this.img.style.width = this.blockSize * (this.spriteMaxPos + 1)
     }
     setIdle() {
         this.img.src = this.sourcePath + 'Idle.png'
         this.spriteMaxPos = 3
+        this.img.style.width = this.blockSize * (this.spriteMaxPos + 1)
     }
     setWalk() {
         this.img.src = this.sourcePath + 'Walk.png'
         this.spriteMaxPos = 5
+        this.img.style.width = this.blockSize * (this.spriteMaxPos + 1)
     }
     changeAnimate(stateStr) {
         this.state = stateStr
         this.animateWasChanged = true
+    }
+    move() {
+        if (this.posX > (this.startX +10)) {
+            this.dir *= -1
+            this.img.style.transform = "scale(-1, 1)"
+        } else if (this.posX < this.startX) {
+            this.dir = Math.abs(this.dir)
+            this.img.style.transform = "scale(1, 1)"
+        }
+        this.posX += this.dir
+        this.block.style.left = this.posX * 32
     }
 }
 
