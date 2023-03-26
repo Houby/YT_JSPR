@@ -447,14 +447,14 @@ class HeartRed extends Heart {
 const addHearts = () => {
     // let heartEmpty = new HeartEmpty(0)
     // let heartRed = new HeartRed(1)
-    // maxLives = 6
-    // lives = 3
+    // maxLives = 10
+    // lives = 4
 
-    for (let i = 1; i <= lives; i++) {
+    for (let i = 0; i <= (lives-1); i++) {
         let heartRed = new HeartRed(i)
     }
 
-    for (let i = lives; i <= maxLives; i++) {
+    for (let i = (lives-1); i <= (maxLives-1); i++) {
         let heartEmpty = new HeartEmpty(i)
     }
 }
