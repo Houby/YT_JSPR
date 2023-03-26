@@ -23,6 +23,7 @@ let info = window.document.querySelector('#info')
 
 let heroX = Math.floor((Number.parseInt(imgBlock.style.left)+32)/32)
 let heroY = Math.floor(Number.parseInt(imgBlock.style.bottom)/32)
+
 console.log(heroX, heroY)
 
 jumpBlock.style.top = `${window.screen.height/2 - 144/2}px`
