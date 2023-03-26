@@ -11,7 +11,8 @@ let x = 0
 let halfWidth = window.screen.width / 2
 let tileArray = []
 let maxLives = 6
-let lives = 3
+let lives = 6
+let heartsArray = []
 
 let jumpBlock = window.document.querySelector('#jump-block')
 let hitBlock = window.document.querySelector('#hit-block')
@@ -353,6 +354,10 @@ class Enemy {
     animate() {
         if (this.spritePos > this.spriteMaxPos) {
             this.spritePos = 0
+            if (this.state === this.ATTACK) {
+                lives--
+                updateHearts()
+            }
         }
         this.img.style.left = -(this.spritePos * this.blockSize)
     }
@@ -419,7 +424,7 @@ class Heart {
     img
     x
     constructor(x, src) {
-        this.x = x
+        this.x = x + 1
         this.img = window.document.createElement('img')
         this.img.src = src
         this.img.style.position = 'absolute'
@@ -445,17 +450,22 @@ class HeartRed extends Heart {
 }
 
 const addHearts = () => {
-    // let heartEmpty = new HeartEmpty(0)
-    // let heartRed = new HeartRed(1)
-    // maxLives = 10
-    // lives = 4
-
-    for (let i = 0; i <= (lives-1); i++) {
-        let heartRed = new HeartRed(i)
-    }
-
-    for (let i = (lives-1); i <= (maxLives-1); i++) {
+    for (let i = 0; i < maxLives; i++) {
         let heartEmpty = new HeartEmpty(i)
+        let heartRed = new HeartRed(i)
+        heartsArray.push(heartRed)
+    }
+}
+
+const updateHearts = () => {
+    if (lives <1) {
+        lives = 1
+    }
+    for (let i = 0; i < lives; i++) {
+        heartsArray[i].img.style.display = 'block'
+    }
+    for (let i = lives; i < maxLives; i++) {
+        heartsArray[i].img.style.display = 'none'
     }
 }
 
@@ -474,6 +484,7 @@ const start = () => {
     let enemy = new Enemy(10, 2)
 
     addHearts()
+    updateHearts()
 }
 
 start()
